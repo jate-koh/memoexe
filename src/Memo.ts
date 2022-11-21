@@ -1,12 +1,16 @@
 import { Client } from "discord.js";
-import { IntentOptions } from "./config/IntentOptions";
-import Initializer from "./events/Initializer";
-import AuthManager from "./utils/AuthManager";
-import { getFormatDate } from "./utils/DateTimeProvider";
+
+import { IntentOptions } from "@/config/IntentOptions";
+import { getCurrentFormatDate } from '@/utils/functions/DateTimeProvider';
+
+import Initializer from "@/events/Initializer";
+import AuthManager from "@/utils/AuthManager";
+import ConsoleLogger from "@/utils/ConsoleLogger";
 
 export default class Memo {
     
     private authManager = new AuthManager();
+    private consoleLogger = new ConsoleLogger(this.constructor.name);
     private initializer = new Initializer(this.authManager);
 
     public constructor(
@@ -20,7 +24,7 @@ export default class Memo {
             //this.auth();
             this.run();
         } catch (error) {
-            throw new Error(`${this.constructor.name} [${getFormatDate()}]: Failed to start the bot.`);
+            throw this.consoleLogger.getError(`Start bot: failed`);
         }
     }
 
@@ -29,24 +33,22 @@ export default class Memo {
     }
 
     public async run() {
-        const bot = new Client({ intents: IntentOptions});
+        const bot = new Client({ intents: IntentOptions });
 
         try {
             await bot.login(this.authManager.getBotToken());
-            console.log(`${this.constructor.name} [${getFormatDate()}]: Bot logged in.`);
+            this.consoleLogger.sendInformationLog(`Bot Login: Success`);
         } catch (error) {
-            throw new Error(`${this.constructor.name} [${getFormatDate()}]: Bot failed to log in.`);
+            throw this.consoleLogger.getError(`Bot Login: Failed`);
         }
 
         bot.on('ready', async () => {
             try {
                 await this.initializer.onReady(bot);
+                this.consoleLogger.sendInformationLog(`Bot Initialiser: Success`);
             } catch (error) {
-                throw new Error(
-                    `${this.constructor.name}: Failed to initialize settings`
-                  );
+                throw this.consoleLogger.getError(`Bot Initialiser: Failed`);
             }
-            console.log(`${this.constructor.name} [${getFormatDate()}]: Bot initialized. Bot is ready.`);
         });
     }
 }
