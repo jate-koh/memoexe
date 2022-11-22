@@ -32,7 +32,7 @@ const main = {
 
     plugins: [
         new eslint({
-            extensions: ['.ts'],
+            extensions: ['ts'],
             exclude: ['node_modules'],
             failOnError: false
         })
