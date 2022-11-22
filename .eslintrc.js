@@ -30,11 +30,20 @@ module.exports = {
         'indent': 'off',
         'quotes': ['warn', 'single'],
         'semi': ['error', 'always'],
+        'eqeqeq': 'warn',
+        'spaced-comment': 'off',
+        'no-await-in-loop': 'off',
+        'no-restricted-syntax': 'off',
+        'padded-blocks': [ 'warn', {
+            classes: "always"
+        }],
 
         // Typescript-Eslint
+        '@typescript-eslint/lines-between-class-members': 'off',
         '@typescript-eslint/indent': ['warn', 4],
         '@typescript-eslint/no-unused-vars': 'warn',
         '@typescript-eslint/naming-convention': 'warn',
+        '@typescript-eslint/quotes': 'off',
 
         // AirBNB
         'no-console': 'off',
