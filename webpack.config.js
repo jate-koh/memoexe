@@ -2,7 +2,8 @@ const path = require('path');
 
 const nodeExternals = require('webpack-node-externals');
 const terserPlugin = require('terser-webpack-plugin');
-const tsconfigPath = require("tsconfig-paths-webpack-plugin");
+const tsconfigPath = require('tsconfig-paths-webpack-plugin');
+const eslint = require('eslint-webpack-plugin');
 
 const dist_path = path.resolve(__dirname, 'dist');
 const src_path = path.resolve(__dirname, 'src');
@@ -29,7 +30,13 @@ const main = {
         }]  
     },
 
-    plugins: [],
+    plugins: [
+        new eslint({
+            extensions: ['.ts'],
+            exclude: ['node_modules'],
+            failOnError: false
+        })
+    ],
 
     externals: [nodeExternals()],
     externalsPresets: { node: true },
