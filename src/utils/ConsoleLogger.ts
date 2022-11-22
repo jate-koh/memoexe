@@ -1,6 +1,7 @@
 import { getCurrentFormatDate } from '@/utils/functions/DateTimeProvider';
 
 export default class ConsoleLogger {
+
     private logger: string;
 
     public constructor(logger?: string) {
@@ -12,15 +13,15 @@ export default class ConsoleLogger {
     public sendInformationLog(message: string, logger?: string): void {
         if (logger) {
             console.log(`
-                ${logger} [${getCurrentFormatDate}]: ${message}
+                ${logger} [${getCurrentFormatDate()}]: ${message}
             `);
         } else if (this.logger) {
             console.log(`
-                ${this.logger} [${getCurrentFormatDate}]: ${message}
+                ${this.logger} [${getCurrentFormatDate()}]: ${message}
             `);
         } else {
             console.log(`
-                [${getCurrentFormatDate}]: ${message}
+                [${getCurrentFormatDate()}]: ${message}
             `);
         }
     }
@@ -28,15 +29,15 @@ export default class ConsoleLogger {
     public sendErrorLog(message: string, logger?: string): void {
         if (logger) {
             console.log(`
-                ${logger} [${getCurrentFormatDate}]: ${message}
+                ${logger} [${getCurrentFormatDate()}]: ${message}
             `);
         } else if (this.logger) {
             console.log(`
-                ${this.logger} [${getCurrentFormatDate}]: ${message}
+                ${this.logger} [${getCurrentFormatDate()}]: ${message}
             `);
         } else {
             console.log(`
-                [${getCurrentFormatDate}]: ${message}
+                [${getCurrentFormatDate()}]: ${message}
             `);
         }
     }
@@ -44,15 +45,15 @@ export default class ConsoleLogger {
     public sendWarningLog(message: string, logger?: string): void {
         if (logger) {
             console.log(`
-                ${logger} [${getCurrentFormatDate}]: ${message}
+                ${logger} [${getCurrentFormatDate()}]: ${message}
             `);
         } else if (this.logger) {
             console.log(`
-                ${this.logger} [${getCurrentFormatDate}]: ${message}
+                ${this.logger} [${getCurrentFormatDate()}]: ${message}
             `);
         } else {
             console.log(`
-                [${getCurrentFormatDate}]: ${message}
+                [${getCurrentFormatDate()}]: ${message}
             `);
         }
     }
@@ -60,16 +61,17 @@ export default class ConsoleLogger {
     public getError(message: string, logger?: string): Error {
         if (logger) {
             return Error(`
-                ${logger} [${getCurrentFormatDate}]: ${message}
+                ${logger} [${getCurrentFormatDate()}]: ${message}
             `);
         }
         if (this.logger) {
             return Error(`
-                ${this.logger} [${getCurrentFormatDate}]: ${message}
+                ${this.logger} [${getCurrentFormatDate()}]: ${message}
             `);
         }
         return Error(`
-                [${getCurrentFormatDate}]: ${message}
+                [${getCurrentFormatDate()}]: ${message}
             `);
     }
+
 }
