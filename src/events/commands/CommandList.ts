@@ -1,6 +1,6 @@
 import { Command } from '@/events/commands/Command';
-import phasmo from '@/events/commands/listing/phasmo';
+import Phasmo from '@/events/commands/listing/Phasmo';
 
-const Phasmo = new phasmo();
+const phasmo = new Phasmo();
 
-export const commandList: Command[] = [Phasmo];
+export const commandList: Command[] = [phasmo];
