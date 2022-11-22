@@ -5,13 +5,14 @@ import { IntentOptions } from '@/config/IntentOptions';
 import Initializer from '@/events/Initializer';
 import AuthManager from '@/utils/AuthManager';
 import ConsoleLogger from '@/utils/ConsoleLogger';
+import InteractionManager from '@/events/InteractionManager';
 
 export default class Memo {
+
     private authManager = new AuthManager();
-
     private consoleLogger = new ConsoleLogger(this.constructor.name);
-
     private initializer = new Initializer(this.authManager);
+    private interactionManager = new InteractionManager();
 
     public constructor(
         botToken: string,
@@ -43,6 +44,7 @@ export default class Memo {
             throw this.consoleLogger.getError('Bot Login: Failed');
         }
 
+        /* Bot Ready State */
         bot.on('ready', async () => {
             try {
                 await this.initializer.onReady(bot);
@@ -51,5 +53,15 @@ export default class Memo {
                 throw this.consoleLogger.getError('Bot Initialiser: Failed');
             }
         });
+
+        /* Bot Listening State */
+        bot.on('interactionCreate', async (interaction) => {
+            try {
+                await this.interactionManager.onInteraction(interaction);
+            } catch (error) {
+                this.consoleLogger.sendErrorLog('Interaction Manager: Error Occured');
+            }
+        });
     }
+
 }
