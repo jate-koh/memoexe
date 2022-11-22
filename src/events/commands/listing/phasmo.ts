@@ -6,6 +6,7 @@ import {
 import { Command } from '@/events/commands/Command';
 
 export default class Phasmo implements Command {
+
     public data = new SlashCommandBuilder()
         .setName('phasmo')
         .setDescription('Invite your friend to play Phasmo');
@@ -35,4 +36,5 @@ export default class Phasmo implements Command {
 
         await interaction.reply({ embeds: [TestEmbed] });
     };
+
 }

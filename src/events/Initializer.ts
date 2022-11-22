@@ -5,6 +5,7 @@ import { commandList } from '@/events/commands/CommandList';
 import AuthManager from '@/utils/AuthManager';
 
 export default class Initializer {
+
     private authProvider: AuthManager;
 
     private botToken: string = undefined;
@@ -37,4 +38,5 @@ export default class Initializer {
             body: commandData,
         });
     }
+
 }

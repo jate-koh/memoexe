@@ -1,4 +1,5 @@
 export default class AuthManager {
+
     private botToken: string = undefined;
 
     private mongoUrl: string = undefined;
@@ -74,4 +75,5 @@ export default class AuthManager {
     public getGuildId(): string {
         return this.guildId;
     }
+
 }
