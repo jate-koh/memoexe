@@ -1,11 +1,10 @@
-import { constants } from 'buffer';
 import { CommandInteraction } from 'discord.js';
 import {
   SlashCommandBuilder,
   SlashCommandSubcommandsOnlyBuilder,
 } from '@discordjs/builders';
 import { EmbedBuilder } from 'discord.js';
-import { Command } from '../Command';
+import { Command } from '@/events/commands/Command';
 
 export default class phasmo implements Command {
   public data = new SlashCommandBuilder()

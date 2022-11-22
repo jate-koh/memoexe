@@ -1,7 +1,6 @@
 import { Client } from "discord.js";
 
 import { IntentOptions } from "@/config/IntentOptions";
-import { getCurrentFormatDate } from '@/utils/functions/DateTimeProvider';
 
 import Initializer from "@/events/Initializer";
 import AuthManager from "@/utils/AuthManager";
@@ -31,6 +30,8 @@ export default class Memo {
     public async auth() {
         if( !this.authManager.validateGuildId() ||  !this.authManager.validateToken() ) 
             throw this.consoleLogger.getError(`Bot Authentication: failed`);
+        else 
+            this.consoleLogger.sendInformationLog(`Bot Authentication: Success`);
     }
 
     public async run() {

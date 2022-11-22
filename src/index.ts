@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-import Memo from "./Memo";
+import Memo from "@/Memo";
 
 dotenv.config();
 

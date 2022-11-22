@@ -1,5 +1,5 @@
-import { Command } from './Command';
-import phasmo from './listing/phasmo';
+import { Command } from '@/events/commands/Command';
+import phasmo from '@/events/commands/listing/phasmo';
 
 const Phasmo = new phasmo();
 

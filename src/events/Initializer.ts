@@ -1,8 +1,8 @@
 import { Client } from 'discord.js';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
-import { commandList } from './commands/CommandList';
-import AuthManager from '../utils/AuthManager';
+import { commandList } from '@/events/commands/CommandList';
+import AuthManager from '@/utils/AuthManager';
 
 export default class Initializer {
     private authProvider: AuthManager;
