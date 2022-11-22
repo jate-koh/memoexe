@@ -21,7 +21,7 @@ export default class Memo {
         this.authManager.setGuildId(guildId);
         
         try {
-            //this.auth();
+            this.auth();
             this.run();
         } catch (error) {
             throw this.consoleLogger.getError(`Start bot: failed`);
@@ -29,7 +29,8 @@ export default class Memo {
     }
 
     public async auth() {
-
+        if( !this.authManager.validateGuildId() ||  !this.authManager.validateToken() ) 
+            throw this.consoleLogger.getError(`Bot Authentication: failed`);
     }
 
     public async run() {
