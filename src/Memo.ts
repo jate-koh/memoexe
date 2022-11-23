@@ -2,7 +2,7 @@ import { Client } from 'discord.js';
 
 import { IntentOptions } from '@/config/IntentOptions';
 
-import Initializer from '@/events/Initializer';
+import Loader from '@/events/Loader';
 import AuthManager from '@/utils/AuthManager';
 import ConsoleLogger from '@/utils/ConsoleLogger';
 import InteractionManager from '@/events/InteractionManager';
@@ -11,7 +11,7 @@ export default class Memo {
 
     private authManager = new AuthManager();
     private consoleLogger = new ConsoleLogger(this.constructor.name);
-    private initializer = new Initializer(this.authManager);
+    private loader = new Loader(this.authManager);
     private interactionManager = new InteractionManager();
 
     public constructor(
@@ -47,7 +47,7 @@ export default class Memo {
         /* Bot Ready State */
         bot.on('ready', async () => {
             try {
-                await this.initializer.onReady(bot);
+                await this.loader.onReady(bot);
                 this.consoleLogger.sendInformationLog('Bot Initialiser: Success');
             } catch (error) {
                 throw this.consoleLogger.getError('Bot Initialiser: Failed');
