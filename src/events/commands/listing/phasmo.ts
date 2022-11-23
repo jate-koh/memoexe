@@ -4,15 +4,18 @@ import {
     SlashCommandSubcommandsOnlyBuilder,
 } from '@discordjs/builders';
 import { Command } from '@/events/commands/Command';
+import ConsoleLogger from '@/utils/ConsoleLogger';
 
 export default class Phasmo implements Command {
+
+    private consoleLogger = new ConsoleLogger(this.constructor.name);
 
     public data = new SlashCommandBuilder()
         .setName('phasmo')
         .setDescription('Invite your friend to play Phasmo');
 
     public run = async (interaction: CommandInteraction) => {
-        console.log(`${this.constructor.name}: Running Command....`);
+        this.consoleLogger.sendInformationLog('Running Command...');
 
         // interaction.deferReply();
         const { user } = interaction;
