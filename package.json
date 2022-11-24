@@ -3,6 +3,14 @@
   "version": "0.1",
   "main": "./dist/src/index.js",
   "author": "jate-koh <jate_ben@hotmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jate-koh/memoexe.git"
+  },
+  "bugs": {
+    "type": "git",
+    "url": "https://github.com/jate-koh/memoexe/issues"
+  },
   "license": "MIT",
   "scripts": {
     "build": "tsc && tsc-alias && webpack --mode development",
