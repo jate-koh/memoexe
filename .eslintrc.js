@@ -30,10 +30,11 @@ module.exports = {
         'indent': 'off',
         'quotes': ['warn', 'single'],
         'semi': ['error', 'always'],
-        'eqeqeq': 'warn',
+        'eqeqeq': 'off',
         'spaced-comment': 'off',
         'no-await-in-loop': 'off',
         'no-restricted-syntax': 'off',
+        'no-plusplus': 'off',
         'padded-blocks': [ 'warn', {
             classes: "always"
         }],
