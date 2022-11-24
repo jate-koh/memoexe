@@ -2,12 +2,14 @@ import {
     SlashCommandBuilder,
     SlashCommandSubcommandsOnlyBuilder,
 } from '@discordjs/builders';
-import { CommandInteraction, Interaction } from 'discord.js';
+import { CommandInteraction } from 'discord.js';
 
-export interface Command {
-    data:
+export abstract class Command {
+
+    public abstract data:
     | Omit<SlashCommandBuilder, 'addSubcommandGroup' | 'addSubcommand'>
     | SlashCommandSubcommandsOnlyBuilder;
 
-    run: (command: CommandInteraction) => Promise<void>;
+    public abstract run(command: CommandInteraction): Promise<void>;
+
 }
