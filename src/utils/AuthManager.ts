@@ -1,10 +1,11 @@
+import { Client } from 'discord.js';
+
 export default class AuthManager {
 
     private botToken: string = undefined;
-
     private mongoUrl: string = undefined;
-
     private guildId: string = undefined;
+    private botClient: Client = undefined;
 
     /**
    * Verify all Bot Token, MongoDB Url (if this bot required database), and Guild ID
@@ -13,6 +14,13 @@ export default class AuthManager {
    * see error logs for details.
    * true: if verification process is successful.
    */
+
+    public constructor(botClient?: Client) {
+        if (botClient) {
+            this.botClient = botClient;
+        }
+    }
+
     public doAuth(requireDatabase?: boolean | false): boolean {
         if (!this.validateToken) {
             return false;
@@ -28,7 +36,7 @@ export default class AuthManager {
         return true;
     }
 
-    public validateToken(): boolean {
+    private validateToken(): boolean {
         if (!this.botToken) {
             console.error(`${this.constructor.name}: Missing discord bot token!`);
             return false;
@@ -36,7 +44,7 @@ export default class AuthManager {
         return true;
     }
 
-    public validateMongo(): boolean {
+    private validateMongo(): boolean {
         if (!this.mongoUrl) {
             console.error(`${this.constructor.name}: Missing MongoDB URL!`);
             return false;
@@ -44,12 +52,16 @@ export default class AuthManager {
         return true;
     }
 
-    public validateGuildId(): boolean {
+    private validateGuildId(): boolean {
         if (!this.guildId) {
             console.error(`${this.constructor.name}: Missing Server ID!`);
             return false;
         }
         return true;
+    }
+
+    public setClient(botClient: Client): void {
+        this.botClient = botClient;
     }
 
     public setBotToken(botToken: string): void {
@@ -62,6 +74,10 @@ export default class AuthManager {
 
     public setGuildId(guildId: string): void {
         this.guildId = guildId;
+    }
+
+    public getBotClient(): Client {
+        return this.botClient;
     }
 
     public getBotToken(): string {
