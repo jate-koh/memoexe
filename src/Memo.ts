@@ -12,7 +12,7 @@ export default class Memo {
     private authManager = new AuthManager();
     private consoleLogger = new ConsoleLogger(this.constructor.name);
     private loader = new Loader(this.authManager);
-    private interactionManager = new InteractionManager();
+    private interactionManager = new InteractionManager(this.authManager);
 
     public constructor(
         botToken: string,
@@ -30,7 +30,7 @@ export default class Memo {
     }
 
     public async auth() {
-        if (!this.authManager.validateGuildId() || !this.authManager.validateToken()) throw this.consoleLogger.getError('Bot Authentication: failed');
+        if (!this.authManager.doAuth(false)) throw this.consoleLogger.getError('Bot Authentication: failed');
         else this.consoleLogger.sendInformationLog('Bot Authentication: Success');
     }
 
@@ -47,7 +47,7 @@ export default class Memo {
         /* Bot Ready State */
         bot.on('ready', async () => {
             try {
-                await this.loader.onReady(bot);
+                await this.loader.load(bot);
                 this.consoleLogger.sendInformationLog('Bot Initialiser: Success');
             } catch (error) {
                 throw this.consoleLogger.getError('Bot Initialiser: Failed');
