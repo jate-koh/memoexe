@@ -3,10 +3,10 @@ import {
     SlashCommandBuilder,
     SlashCommandSubcommandsOnlyBuilder,
 } from '@discordjs/builders';
-import { Command } from '@/events/commands/Command';
+import { GenericCommand } from '@/events/commands/generic/GenericCommand';
 import ConsoleLogger from '@/utils/ConsoleLogger';
 
-export default class Phasmo implements Command {
+export default class Phasmo extends GenericCommand {
 
     private consoleLogger = new ConsoleLogger(this.constructor.name);
 
