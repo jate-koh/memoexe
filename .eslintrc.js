@@ -55,6 +55,6 @@ module.exports = {
         'import/extensions': 'off'
     },
 
-    'noInlineConfig': true,
+    'noInlineConfig': false,
 
 }
