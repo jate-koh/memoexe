@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import {
     CommandInteraction,
     EmbedBuilder,
@@ -6,6 +7,7 @@ import {
     SlashCommandBuilder,
     SlashCommandSubcommandsOnlyBuilder,
 } from '@discordjs/builders';
+import glob from 'glob';
 import { commandList, specialCommandList } from '@/events/commands/CommandList';
 import { SpecialCommand } from '@/events/commands/special/SpecialCommand';
 import Loader from '@/events/Loader';
@@ -24,7 +26,7 @@ export default class Reload extends SpecialCommand {
         this.consoleLogger.sendInformationLog('Reloading Commands...');
 
         const { user } = interaction;
-        const amount: number = commandList.length + specialCommandList.length;
+        const totalAmount: number = commandList.length + specialCommandList.length;
         const reloader = new Loader(auth);
         const embedReload = new EmbedBuilder();
         embedReload.setAuthor({
@@ -33,19 +35,44 @@ export default class Reload extends SpecialCommand {
         });
 
         await interaction.reply({ content: 'Reloading... please wait...' });
-        //console.log(auth.getBotClient())
+        await interaction.editReply({ content: `Found ${totalAmount} command(s)` });
 
         try {
-            reloader.reload(auth.getBotClient());
-            embedReload.setTitle('**Commands Reloaded**');
-            embedReload.setDescription(`Total of ${amount} Command(s) reloaded`);
+            let amount = 0;
+            glob(`${__dirname}/../**/*.js`, async (error, filePath) => {
+                this.fileIteration(error, filePath).then(async (number) => {
+                    amount = number;
+                    this.consoleLogger.sendInformationLog('Initialiser: Reinitlising Bot...');
+                    await reloader.reload(auth.getBotClient()).then(() => {
+                        this.consoleLogger.sendInformationLog('Initialiser: Bot Reinitialiser: Success');
+                        embedReload.setTitle('**Reloaded**');
+                        embedReload.setDescription(`Found total of ${totalAmount} command(s)\nTotal of ${amount} files(s) reloaded`);
+                    });
+                    await interaction.editReply({ content: '', embeds: [embedReload] });
+                });
+            });
         } catch (error) {
-            embedReload.setTitle('**Command Reload Failed**');
+            embedReload.setTitle('**Reload Failed**');
             this.consoleLogger.sendErrorLog('Reload Failed');
         }
 
         // await interaction.editReply({ embeds: [embedReload] });
-        await interaction.editReply({ content: '', embeds: [embedReload] });
     };
+
+    public async fileIteration(error: Error, filePath: string[]): Promise<number> {
+        if (error) {
+            this.consoleLogger.sendErrorLog('Command Files Iteration Failed');
+            return 0;
+        }
+
+        let amount = 0;
+        filePath.forEach((file) => {
+            this.consoleLogger.sendInformationLog(`Reloading ${file}`);
+            delete require.cache[require.resolve(file)];
+            amount += 1;
+        });
+
+        return amount;
+    }
 
 }
