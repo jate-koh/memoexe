@@ -51,7 +51,7 @@ export default class Loader {
             client = bot;
         }
 
-        this.load(bot);
+        this.load(client);
     }
 
 }
