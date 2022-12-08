@@ -4,11 +4,9 @@ import ConsoleLogger from '@/utils/ConsoleLogger';
 import AuthManager from '@/utils/AuthManager';
 
 import { InteractionState } from '@/events/InteractionState';
-import { commandList } from '@/events/commands/CommandList';
-import { lookupCommand } from '@/events/commands/CommandChecker';
 import { GenericCommand } from '@/events/commands/generic/GenericCommand';
-import { Command } from '@/events/commands/Command';
 import { SpecialCommand } from './commands/special/SpecialCommand';
+import CommandOperator from '@/events/commands/CommandOperator';
 
 export default class InteractionManager {
 
@@ -28,8 +26,9 @@ export default class InteractionManager {
             this.setInteraction(interaction);
             this.setInteractionState(InteractionState.COMMAND);
 
+            const commandOps = new CommandOperator();
             const { user } = interaction;
-            const command = lookupCommand(interaction);
+            const command = commandOps.lookupCommand(interaction);
 
             if (command) {
                 this.consoleLogger.sendInformationLog(`
