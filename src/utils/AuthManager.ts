@@ -7,6 +7,12 @@ export default class AuthManager {
     private guildId: string = undefined;
     private botClient: Client = undefined;
 
+    public constructor(botClient?: Client) {
+        if (botClient) {
+            this.botClient = botClient;
+        }
+    }
+
     /**
    * Verify all Bot Token, MongoDB Url (if this bot required database), and Guild ID
    * @param requireDatabase set to true if this bot use database (Default is false)
@@ -14,13 +20,6 @@ export default class AuthManager {
    * see error logs for details.
    * true: if verification process is successful.
    */
-
-    public constructor(botClient?: Client) {
-        if (botClient) {
-            this.botClient = botClient;
-        }
-    }
-
     public doAuth(requireDatabase?: boolean | false): boolean {
         if (!this.validateToken) {
             return false;
