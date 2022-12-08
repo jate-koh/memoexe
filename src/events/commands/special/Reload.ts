@@ -34,13 +34,13 @@ export default class Reload extends SpecialCommand {
             iconURL: user.displayAvatarURL(),
         });
 
-        await interaction.reply({ content: 'Reloading... please wait...' });
-        await interaction.editReply({ content: `Found ${totalAmount} command(s)` });
+        await interaction.reply({ content: `Found ${totalAmount} command(s) for reloading.` });
+        await interaction.editReply({ content: 'Reloading... please wait...' });
 
         try {
             let amount = 0;
             glob(`${__dirname}/../**/*.js`, async (error, filePath) => {
-                this.fileIteration(error, filePath).then(async (number) => {
+                this.clearCache(error, filePath).then(async (number) => {
                     amount = number;
                     this.consoleLogger.sendInformationLog('Initialiser: Reinitlising Bot...');
                     await reloader.reload(auth.getBotClient()).then(() => {
@@ -59,7 +59,7 @@ export default class Reload extends SpecialCommand {
         // await interaction.editReply({ embeds: [embedReload] });
     };
 
-    public async fileIteration(error: Error, filePath: string[]): Promise<number> {
+    public async clearCache(error: Error, filePath: string[]): Promise<number> {
         if (error) {
             this.consoleLogger.sendErrorLog('Command Files Iteration Failed');
             return 0;
