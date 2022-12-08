@@ -2,7 +2,9 @@ import { Client } from 'discord.js';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 import { commandList, specialCommandList } from '@/events/commands/CommandList';
+
 import AuthManager from '@/utils/AuthManager';
+import CommandOperator from '@/events/commands/CommandOperator';
 
 export default class Loader {
 
@@ -29,13 +31,15 @@ export default class Loader {
             guild = this.authProvider.getGuildId();
         }
 
-        const rest = new REST({ version: '9' }).setToken(token);
-        const commandData = commandList.map((command) => command.data.toJSON());
-        const specialCommandData = specialCommandList.map((command) => command.data.toJSON());
+        // const commandData = commandList.map((command) => command.data.toJSON());
+        // const specialCommandData = specialCommandList.map((command) => command.data.toJSON());
 
-        specialCommandData.forEach((command) => {
-            commandData.push(command);
-        });
+        // specialCommandData.forEach((command) => {
+        //     commandData.push(command);
+        // });
+        const commandOps = new CommandOperator();
+        const commandData = commandOps.createCommandJson();
+        const rest = new REST({ version: '9' }).setToken(token);
 
         await rest.put(Routes.applicationGuildCommands(bot.user?.id, guild), {
             body: commandData,
@@ -43,7 +47,7 @@ export default class Loader {
 
     }
 
-    public async reload(bot: Client, botToken?: string, guildId?: string) {
+    public async reload(bot?: Client, botToken?: string, guildId?: string) {
         let client: Client;
         if (!bot) {
             client = this.authProvider.getBotClient();
@@ -51,7 +55,26 @@ export default class Loader {
             client = bot;
         }
 
-        this.load(client);
+        let token: string;
+        if (botToken) {
+            token = botToken;
+        } else {
+            token = this.authProvider.getBotToken();
+        }
+
+        let guild: string;
+        if (guildId) {
+            guild = guildId;
+        } else {
+            guild = this.authProvider.getGuildId();
+        }
+
+        const rest = new REST({ version: '9' }).setToken(token);
+        await rest.put(Routes.applicationGuildCommands(bot.user?.id, guild), {
+            body: [],
+        }).then(async () => {
+            await this.load(client);
+        });
     }
 
 }
