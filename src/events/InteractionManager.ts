@@ -12,12 +12,12 @@ export default class InteractionManager {
 
     private interactionEvent: Interaction = undefined;
     private interactionState: InteractionState = undefined;
-    private authManager: AuthManager = undefined;
+    private authProvider: AuthManager = undefined;
 
     private consoleLogger = new ConsoleLogger(this.constructor.name);
 
     public constructor(authProvider: AuthManager) {
-        this.authManager = authProvider;
+        this.authProvider = authProvider;
     }
 
     public async onInteraction(interaction: Interaction) {
@@ -38,7 +38,7 @@ export default class InteractionManager {
 
             if (command instanceof SpecialCommand) {
                 this.consoleLogger.sendInformationLog('Special Command Detected');
-                command.run(interaction, this.authManager);
+                command.run(interaction, this.authProvider);
             } else if (command instanceof GenericCommand) {
                 this.consoleLogger.sendInformationLog('Generic Command Detected');
                 command.run(interaction);
