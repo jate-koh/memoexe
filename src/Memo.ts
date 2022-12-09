@@ -47,8 +47,9 @@ export default class Memo {
         /* Bot Ready State */
         bot.on('ready', async () => {
             try {
-                await this.loader.load(bot);
-                this.consoleLogger.sendInformationLog('Bot Initialiser: Success');
+                await this.loader.load(bot).then(() => {
+                    this.consoleLogger.sendInformationLog('Bot Initialiser: Success');
+                });
             } catch (error) {
                 throw this.consoleLogger.getError('Bot Initialiser: Failed');
             }
