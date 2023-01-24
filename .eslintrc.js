@@ -35,7 +35,7 @@ module.exports = {
         'no-await-in-loop': 'off',
         'no-restricted-syntax': 'off',
         'no-plusplus': 'off',
-        'linebreak-style': 'off',
+        'linebreak-style': ['warn', 'unix'],
         'padded-blocks': [ 'warn', {
             classes: "always"
         }],
