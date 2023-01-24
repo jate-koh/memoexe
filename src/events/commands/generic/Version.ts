@@ -30,11 +30,12 @@ export default class Version extends GenericCommand {
             iconURL: user.displayAvatarURL(),
         });
 
-        const commandOps = new CommandOperator();
-        commandOps.createGenericCommandsList();
-
         // await interaction.editReply({ embeds: [embedBotInfo] });
         await interaction.reply({ embeds: [embedBotInfo] });
     };
+
+    public getInstance(): object {
+        return this;
+    }
 
 }

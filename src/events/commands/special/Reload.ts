@@ -75,4 +75,8 @@ export default class Reload extends SpecialCommand {
         return amount;
     }
 
+    public getInstance(): object {
+        return this;
+    }
+
 }
