@@ -31,12 +31,6 @@ export default class Loader {
             guild = this.authProvider.getGuildId();
         }
 
-        // const commandData = commandList.map((command) => command.data.toJSON());
-        // const specialCommandData = specialCommandList.map((command) => command.data.toJSON());
-
-        // specialCommandData.forEach((command) => {
-        //     commandData.push(command);
-        // });
         const commandOps = new CommandOperator();
         const commandData = commandOps.createCommandJson();
         const rest = new REST({ version: '9' }).setToken(token);
