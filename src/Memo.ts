@@ -1,7 +1,7 @@
 import { Client } from 'discord.js';
+import { Player } from 'discord-player';
 
 import { IntentOptions } from '@/config/IntentOptions';
-
 import Loader from '@/events/Loader';
 import AuthManager from '@/utils/AuthManager';
 import ConsoleLogger from '@/utils/ConsoleLogger';
@@ -9,17 +9,19 @@ import InteractionManager from '@/events/InteractionManager';
 
 export default class Memo {
 
-    private authManager = new AuthManager();
-    private consoleLogger = new ConsoleLogger(this.constructor.name);
-    private loader = new Loader(this.authManager);
-    private interactionManager = new InteractionManager(this.authManager);
+    // Auth Manager and Interaction Manager can be instantiated once
+    private authManager         = AuthManager.getAuthInstance();
+    private interactionManager  = InteractionManager.getInteractionInstance();
 
-    public constructor(
-        botToken: string,
-        guildId: string,
-    ) {
+    private consoleLogger       = new ConsoleLogger(this.constructor.name);
+    private loader              = new Loader(this.authManager);
+
+    public constructor(botToken: string, guildId: string) {
+
+        // Initialize Auth Manager and Interaction Manager
         this.authManager.setBotToken(botToken);
         this.authManager.setGuildId(guildId);
+        this.interactionManager.setAuthProvider(this.authManager);
 
         try {
             this.auth();
@@ -36,7 +38,9 @@ export default class Memo {
 
     public async run() {
         const bot = new Client({ intents: IntentOptions });
+        //const player = new Player(bot);
 
+        this.authManager.setClient(bot);
         try {
             await bot.login(this.authManager.getBotToken());
             this.consoleLogger.sendInformationLog('Bot Login: Success');
