@@ -39,6 +39,7 @@ module.exports = {
         'padded-blocks': [ 'warn', {
             classes: "always"
         }],
+        'no-multi-spaces': 'off',
 
         // Typescript-Eslint
         '@typescript-eslint/lines-between-class-members': 'off',
