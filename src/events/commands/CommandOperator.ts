@@ -1,5 +1,10 @@
-import { CommandInteraction } from 'discord.js';
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable global-require */
+/* eslint-disable import/no-dynamic-require */
+import { Client, CommandInteraction } from 'discord.js';
 import { RESTPostAPIChatInputApplicationCommandsJSONBody } from 'discord-api-types/v9';
+import fs from 'fs';
+import path from 'path';
 
 import { GenericCommand } from '@/events/commands/generic/GenericCommand';
 import { SpecialCommand } from '@/events/commands/special/SpecialCommand';
@@ -10,8 +15,8 @@ import InstanceLoader from '@/utils/InstanceLoader';
 export default class CommandOperator {
 
     private consoleLogger = new ConsoleLogger(this.constructor.name);
-    private instanceLoader = new InstanceLoader();
-    private commandList: GenericCommand[] = undefined;
+
+    private commandList: GenericCommand[]        = undefined;
     private specialCommandList: SpecialCommand[] = undefined;
 
     public constructor() {
@@ -21,6 +26,30 @@ export default class CommandOperator {
     public createList(): void {
         this.commandList = commandList;
         this.specialCommandList = specialCommandList;
+    }
+
+    public readCommandsDir(): void {
+        const genericPath = path.resolve(__dirname, 'generic');
+        const specialPath = path.resolve(__dirname, 'special');
+
+        let genericCommandFiles: string[];
+        let specialCommandFiles: string[];
+        try {
+            genericCommandFiles = fs.readdirSync(genericPath).filter(
+                (file) => file.endsWith('.js'),
+            );
+            specialCommandFiles = fs.readdirSync(specialPath).filter(
+                (file) => file.endsWith('.js'),
+            );
+        } catch (error) {
+            this.consoleLogger.getError('Unable to create file reference.');
+            return;
+        }
+
+        genericCommandFiles.forEach((element) => {
+            this.consoleLogger.sendInformationLog(element);
+        });
+
     }
 
     private lookupGenericCommands(interaction: CommandInteraction): GenericCommand | undefined {
