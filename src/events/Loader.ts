@@ -3,6 +3,7 @@ import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 import { commandList, specialCommandList } from '@/events/commands/CommandList';
 
+import { MemoAuthManager as MainAuthProvider } from '@/Memo';
 import AuthManager from '@/utils/AuthManager';
 import CommandOperator from '@/events/commands/CommandOperator';
 
@@ -10,8 +11,9 @@ export default class Loader {
 
     private authProvider: AuthManager;
 
-    public constructor(authProvider: AuthManager) {
-        this.authProvider = authProvider;
+    public constructor(authProvider?: AuthManager) {
+        if (authProvider) this.authProvider = authProvider;
+        else this.authProvider = MainAuthProvider; // If not set, default to Main Auth Provider
     }
 
     public async load(bot: Client, botToken?: string, guildId?: string) {

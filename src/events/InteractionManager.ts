@@ -1,8 +1,8 @@
 import { Interaction } from 'discord.js';
 
+import { MemoAuthManager as MainAuthProvider } from '@/Memo';
 import ConsoleLogger from '@/utils/ConsoleLogger';
 import AuthManager from '@/utils/AuthManager';
-
 import { InteractionState } from '@/events/InteractionState';
 import { GenericCommand } from '@/events/commands/generic/GenericCommand';
 import { SpecialCommand } from './commands/special/SpecialCommand';
@@ -18,9 +18,8 @@ export default class InteractionManager {
     private consoleLogger = new ConsoleLogger(this.constructor.name);
 
     private constructor(authProvider?: AuthManager) {
-        if (authProvider) {
-            this.authProvider = authProvider;
-        }
+        if (authProvider) this.authProvider = authProvider;
+        else this.authProvider = MainAuthProvider; // If not set, default to Main Auth Provider
     }
 
     public static getInteractionInstance(): InteractionManager | null {

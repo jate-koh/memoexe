@@ -7,21 +7,20 @@ import AuthManager from '@/utils/AuthManager';
 import ConsoleLogger from '@/utils/ConsoleLogger';
 import InteractionManager from '@/events/InteractionManager';
 
+// Auth Manager and Interaction Manager can be instantiated once.
+export const MemoAuthManager            = AuthManager.getAuthInstance();
+export const MemoInteractionManager     = InteractionManager.getInteractionInstance();
 export default class Memo {
 
-    // Auth Manager and Interaction Manager can be instantiated once
-    private authManager         = AuthManager.getAuthInstance();
-    private interactionManager  = InteractionManager.getInteractionInstance();
-
     private consoleLogger       = new ConsoleLogger(this.constructor.name);
-    private loader              = new Loader(this.authManager);
+    private loader              = new Loader(MemoAuthManager);
 
     public constructor(botToken: string, guildId: string) {
 
         // Initialize Auth Manager and Interaction Manager
-        this.authManager.setBotToken(botToken);
-        this.authManager.setGuildId(guildId);
-        this.interactionManager.setAuthProvider(this.authManager);
+        MemoAuthManager.setBotToken(botToken);
+        MemoAuthManager.setGuildId(guildId);
+        MemoInteractionManager.setAuthProvider(MemoAuthManager);
 
         try {
             this.auth();
@@ -32,7 +31,7 @@ export default class Memo {
     }
 
     public async auth() {
-        if (!this.authManager.doAuth(false)) throw this.consoleLogger.getError('Bot Authentication: failed');
+        if (!MemoAuthManager.doAuth(false)) throw this.consoleLogger.getError('Bot Authentication: failed');
         else this.consoleLogger.sendInformationLog('Bot Authentication: Success');
     }
 
@@ -40,9 +39,9 @@ export default class Memo {
         const bot = new Client({ intents: IntentOptions });
         //const player = new Player(bot);
 
-        this.authManager.setClient(bot);
+        MemoAuthManager.setClient(bot);
         try {
-            await bot.login(this.authManager.getBotToken());
+            await bot.login(MemoAuthManager.getBotToken());
             this.consoleLogger.sendInformationLog('Bot Login: Success');
         } catch (error) {
             throw this.consoleLogger.getError('Bot Login: Failed');
@@ -62,7 +61,7 @@ export default class Memo {
         /* Bot Listening State */
         bot.on('interactionCreate', async (interaction) => {
             try {
-                await this.interactionManager.onInteraction(interaction);
+                await MemoInteractionManager.onInteraction(interaction);
             } catch (error) {
                 this.consoleLogger.sendErrorLog('Interaction Manager: Error Occured');
             }
