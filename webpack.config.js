@@ -4,6 +4,7 @@ const nodeExternals = require('webpack-node-externals');
 const terserPlugin = require('terser-webpack-plugin');
 const tsconfigPath = require('tsconfig-paths-webpack-plugin');
 const eslint = require('eslint-webpack-plugin');
+//const nodemon = require('nodemon-webpack-plugin');
 
 const dist_path = path.resolve(__dirname, 'dist');
 const src_path = path.resolve(__dirname, 'src');
@@ -31,6 +32,12 @@ const main = {
     },
 
     plugins: [
+        // new nodemon({
+        //     script: './dist/bundle.js',
+        //     watch: path.resolve('./dist'),
+        //     ignore: ['**/*.test.ts", "**/*.spec.ts", "node_modules'],
+        //     ext: 'js,ts',
+        // }),
         new eslint({
             extensions: ['ts'],
             exclude: ['node_modules'],
