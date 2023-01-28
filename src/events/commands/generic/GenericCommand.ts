@@ -17,6 +17,8 @@ export abstract class GenericCommand extends Command {
 
     public abstract run(command: CommandInteraction): Promise<void>;
 
+    public abstract getInstance(): object;
+
     public getType(): object {
         return GenericCommand;
     }

@@ -12,4 +12,8 @@ export abstract class Command {
 
     public abstract run(command: CommandInteraction): Promise<void>;
 
+    public abstract getInstance(): object;
+
+    public abstract getType(): object;
+
 }

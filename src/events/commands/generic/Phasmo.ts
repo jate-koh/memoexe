@@ -40,4 +40,8 @@ export default class Phasmo extends GenericCommand {
         await interaction.reply({ embeds: [TestEmbed] });
     };
 
+    public getInstance(): object {
+        return this;
+    }
+
 }

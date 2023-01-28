@@ -14,6 +14,8 @@ export abstract class SpecialCommand extends Command {
 
     public abstract override run(command: CommandInteraction, auth?: AuthManager): Promise<void>;
 
+    public abstract getInstance(): object;
+
     public getType(): object {
         return SpecialCommand;
     }

@@ -1,6 +1,6 @@
 # Config
 .gitignore
-.tsconfig.json
-.webpack.config.js
-.package.json
+tsconfig.json
+webpack.config.js
+package.json
 .eslintrc.js

@@ -35,14 +35,16 @@ module.exports = {
         'no-await-in-loop': 'off',
         'no-restricted-syntax': 'off',
         'no-plusplus': 'off',
+        'linebreak-style': ['warn', 'unix'],
         'padded-blocks': [ 'warn', {
             classes: "always"
         }],
+        'no-multi-spaces': 'off',
 
         // Typescript-Eslint
         '@typescript-eslint/lines-between-class-members': 'off',
         '@typescript-eslint/indent': ['warn', 4],
-        '@typescript-eslint/no-unused-vars': 'warn',
+        '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/naming-convention': 'warn',
         '@typescript-eslint/quotes': 'off',
 
