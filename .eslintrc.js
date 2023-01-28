@@ -44,7 +44,7 @@ module.exports = {
         // Typescript-Eslint
         '@typescript-eslint/lines-between-class-members': 'off',
         '@typescript-eslint/indent': ['warn', 4],
-        '@typescript-eslint/no-unused-vars': 'warn',
+        '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/naming-convention': 'warn',
         '@typescript-eslint/quotes': 'off',
 
