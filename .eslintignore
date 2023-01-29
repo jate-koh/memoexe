@@ -1,4 +1,5 @@
 # Config
+dist/*
 .gitignore
 tsconfig.json
 webpack.config.js

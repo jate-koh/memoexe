@@ -15,7 +15,7 @@
   "scripts": {
     "build-dev": "webpack --mode development --watch",
     "dev": "npm-run-all --parallel build-dev start-dev",
-    "start-dev": "nodemon ./dist/bundle.js -w ./dist/bundle.js",
+    "start-dev": "nodemon ./dist/bundle.js --watch ./dist/bundle.js",
     "clean": "rimraf dist/",
     "lint": "eslint . --ext .ts",
     "lint-fix": "eslint . --ext .ts --fix"
