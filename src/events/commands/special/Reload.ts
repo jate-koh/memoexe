@@ -1,12 +1,6 @@
 /* eslint-disable consistent-return */
-import {
-    CommandInteraction,
-    EmbedBuilder,
-} from 'discord.js';
-import {
-    SlashCommandBuilder,
-    SlashCommandSubcommandsOnlyBuilder,
-} from '@discordjs/builders';
+import { CommandInteraction, EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder, SlashCommandSubcommandsOnlyBuilder } from '@discordjs/builders';
 import glob from 'glob';
 import { commandList, specialCommandList } from '@/events/commands/CommandList';
 import { SpecialCommand } from '@/events/commands/special/SpecialCommand';

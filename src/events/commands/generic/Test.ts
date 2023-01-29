@@ -28,7 +28,7 @@ export default class Test extends GenericCommand {
 
         const embedTestInfo = new EmbedBuilder();
         embedTestInfo.setTitle('**Bot Test Command**');
-        embedTestInfo.setDescription(`Test: Done!`);
+        embedTestInfo.setDescription('Test: Done!');
         embedTestInfo.setAuthor({
             name: user.username,
             iconURL: user.displayAvatarURL(),
