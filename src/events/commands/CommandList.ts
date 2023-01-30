@@ -7,9 +7,9 @@ import Test from '@/events/commands/generic/Test';
 
 const phasmo = new Phasmo();
 const version = new Version();
-const reload = new Reload();
+//const reload = new Reload();
 const test = new Test();
 
 export const commandList: GenericCommand[] = [phasmo, version, test];
 
-export const specialCommandList: SpecialCommand[] = [reload];
+export const specialCommandList: SpecialCommand[] = [];
