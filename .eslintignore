@@ -1,7 +1,27 @@
-# Config
+# Folder
+node_modules/*
 dist/*
+*/logs/*
+
+# Config
 .gitignore
 tsconfig.json
 webpack.config.js
 package.json
 .eslintrc.js
+
+# Logs
+yarn-error.log*
+yarn-debug.log*
+npm-error.log*
+npm-debug.log*
+pnpm-error.log*
+pnpm-debug.log*
+
+# JSON & YAML
+*.json
+*.yml
+*.yaml
+
+# Docker
+Dockerfile
