@@ -9,12 +9,16 @@ pnpm-error.log*
 pnpm-debug.log*
 
 # Folders
+archives/
 .env
 node_modules
-dist
-dist_ssr
+dist/
+dist_ssr/
 
 # VScode
 .vscode/*
 !.vscode/extensions.json
 !.vscode/setting.json
+
+# Misc
+.DS_Store
