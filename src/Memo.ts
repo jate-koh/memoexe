@@ -37,9 +37,9 @@ export default class Memo {
 
     public async run() {
         const bot = new Client({ intents: IntentOptions });
-        //const player = new Player(bot);
-
         MemoAuthManager.setClient(bot);
+
+        /** Bot Login Stage */
         try {
             await bot.login(MemoAuthManager.getBotToken());
             this.consoleLogger.sendInformationLog('Bot Login: Success');
@@ -47,7 +47,7 @@ export default class Memo {
             throw this.consoleLogger.getError('Bot Login: Failed');
         }
 
-        /* Bot Ready State */
+        /* Bot Initialise Stage */
         bot.on('ready', async () => {
             try {
                 await this.loader.load(bot).then(() => {
@@ -58,7 +58,7 @@ export default class Memo {
             }
         });
 
-        /* Bot Listening State */
+        /* Bot Listening Stage */
         bot.on('interactionCreate', async (interaction) => {
             try {
                 await MemoInteractionManager.onInteraction(interaction);

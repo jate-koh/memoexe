@@ -4,11 +4,11 @@ import {
     SlashCommandSubcommandsOnlyBuilder,
 } from '@discordjs/builders';
 import packageJson from 'package.json';
-import { GenericCommand } from '@/events/commands/generic/GenericCommand';
 import ConsoleLogger from '@/utils/ConsoleLogger';
 import CommandOperator from '@/events/commands/CommandOperator';
+import { Command } from '@/events/commands/Command';
 
-export default class Test extends GenericCommand {
+export default class Test extends Command {
 
     private consoleLogger = new ConsoleLogger(this.constructor.name);
 
@@ -22,13 +22,12 @@ export default class Test extends GenericCommand {
         const { user } = interaction;
 
         /* Insert test statement in this Region*/
-        const commandOps = new CommandOperator();
-        commandOps.readCommandsDir();
+
         /* END TEST REGION */
 
         const embedTestInfo = new EmbedBuilder();
         embedTestInfo.setTitle('**Bot Test Command**');
-        embedTestInfo.setDescription(`Test: Done!`);
+        embedTestInfo.setDescription('Test: Done!');
         embedTestInfo.setAuthor({
             name: user.username,
             iconURL: user.displayAvatarURL(),

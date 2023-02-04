@@ -4,8 +4,7 @@ import { MemoAuthManager as MainAuthProvider } from '@/Memo';
 import ConsoleLogger from '@/utils/ConsoleLogger';
 import AuthManager from '@/utils/AuthManager';
 import { InteractionState } from '@/events/InteractionState';
-import { GenericCommand } from '@/events/commands/generic/GenericCommand';
-import { SpecialCommand } from './commands/special/SpecialCommand';
+import { Command } from '@/events/commands/Command';
 import CommandOperator from '@/events/commands/CommandOperator';
 
 export default class InteractionManager {
@@ -45,22 +44,15 @@ export default class InteractionManager {
                 this.consoleLogger.sendInformationLog(`
                 User ${user.username} (${user.tag}): 
                 Invoked: ${interaction.commandName} in ${interaction.channel}`);
-            }
 
-            // If command is in Special Commands Listing
-            if (command instanceof SpecialCommand) {
-                this.consoleLogger.sendInformationLog('Special Command Detected');
-                if (this.authProvider) command.run(interaction, this.authProvider);
-                else this.consoleLogger.sendErrorLog('Auth Manager not provided');
-
-            // If command is in Generic Commands Listing
-            } else if (command instanceof GenericCommand) {
-                this.consoleLogger.sendInformationLog('Generic Command Detected');
-                command.run(interaction);
-
-            // Unidentified Commands
-            } else {
-                this.consoleLogger.sendErrorLog('Command not found in the listing.');
+                // Check Instance of Commands
+                if (command instanceof Command) {
+                    this.consoleLogger.sendInformationLog('Command Detected');
+                    command.run(interaction);
+                // Unidentified Commands
+                } else {
+                    this.consoleLogger.sendErrorLog('Command not found in the listing.');
+                }
             }
 
         } else {

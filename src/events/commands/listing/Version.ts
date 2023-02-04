@@ -4,11 +4,11 @@ import {
     SlashCommandSubcommandsOnlyBuilder,
 } from '@discordjs/builders';
 import packageJson from 'package.json';
-import { GenericCommand } from '@/events/commands/generic/GenericCommand';
 import ConsoleLogger from '@/utils/ConsoleLogger';
 import CommandOperator from '@/events/commands/CommandOperator';
+import { Command } from '@/events/commands/Command';
 
-export default class Version extends GenericCommand {
+export default class Version extends Command {
 
     private consoleLogger = new ConsoleLogger(this.constructor.name);
 

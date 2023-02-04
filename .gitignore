@@ -1,17 +1,24 @@
 # Logs
-logs
+*/logs/*
 *.log
-npm-debug.log*
-yarn-debug.log*
 yarn-error.log*
+yarn-debug.log*
+npm-error.log*
+npm-debug.log*
+pnpm-error.log*
+pnpm-debug.log*
 
 # Folders
+archives/
 .env
 node_modules
-dist
-dist_ssr
+dist/
+dist_ssr/
 
 # VScode
 .vscode/*
 !.vscode/extensions.json
 !.vscode/setting.json
+
+# Misc
+.DS_Store
