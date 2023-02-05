@@ -1,0 +1,9 @@
+version: "1"
+
+services:
+  memo-discord-bot:
+    image: ghcr.io/jate-koh/memobot:latest
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env

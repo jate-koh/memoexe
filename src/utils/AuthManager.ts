@@ -2,23 +2,24 @@ import { Client } from 'discord.js';
 
 export default class AuthManager {
 
+    private static authManagerInstance: AuthManager;
     private botToken: string = undefined;
     private mongoUrl: string = undefined;
     private guildId: string = undefined;
     private botClient: Client = undefined;
 
-    /**
-   * Verify all Bot Token, MongoDB Url (if this bot required database), and Guild ID
-   * @param requireDatabase set to true if this bot use database (Default is false)
-   * @returns false: if authentication and verification process failed,
-   * see error logs for details.
-   * true: if verification process is successful.
-   */
-
-    public constructor(botClient?: Client) {
+    private constructor(botClient?: Client) {
         if (botClient) {
             this.botClient = botClient;
         }
+    }
+
+    public static getAuthInstance(): AuthManager | null {
+        if (this.authManagerInstance == null) {
+            const authInstance = new AuthManager();
+            return authInstance;
+        }
+        return null;
     }
 
     public doAuth(requireDatabase?: boolean | false): boolean {

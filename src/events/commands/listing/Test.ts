@@ -4,33 +4,41 @@ import {
     SlashCommandSubcommandsOnlyBuilder,
 } from '@discordjs/builders';
 import packageJson from 'package.json';
-import { GenericCommand } from '@/events/commands/generic/GenericCommand';
 import ConsoleLogger from '@/utils/ConsoleLogger';
+import CommandOperator from '@/events/commands/CommandOperator';
+import { Command } from '@/events/commands/Command';
 
-export default class Version extends GenericCommand {
+export default class Test extends Command {
 
     private consoleLogger = new ConsoleLogger(this.constructor.name);
 
     public data = new SlashCommandBuilder()
-        .setName('version')
-        .setDescription('View bot info regarding build version');
+        .setName('test')
+        .setDescription('Bot test command');
 
     public run = async (interaction: CommandInteraction) => {
         this.consoleLogger.sendInformationLog('Running Command...');
 
         const { user } = interaction;
 
-        const embedBotInfo = new EmbedBuilder();
-        embedBotInfo.setTitle('**Bot Info**');
-        embedBotInfo.setDescription(`Bot Version: **${packageJson.version}**
-            Bot Name: **${packageJson.name}**`);
-        embedBotInfo.setAuthor({
+        /* Insert test statement in this Region*/
+
+        /* END TEST REGION */
+
+        const embedTestInfo = new EmbedBuilder();
+        embedTestInfo.setTitle('**Bot Test Command**');
+        embedTestInfo.setDescription('Test: Done!');
+        embedTestInfo.setAuthor({
             name: user.username,
             iconURL: user.displayAvatarURL(),
         });
-
         // await interaction.editReply({ embeds: [embedBotInfo] });
-        await interaction.reply({ embeds: [embedBotInfo] });
+
+        await interaction.reply({ embeds: [embedTestInfo] });
     };
+
+    public getInstance(): object {
+        return this;
+    }
 
 }
