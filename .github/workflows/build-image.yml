@@ -7,7 +7,7 @@ on:
 
 env:
   PACKAGE_NAME: memobot
-  REGIS_URL: $${{ secrets.REGIS }}/${{ secrets.REGIS_USER }}/${{ env.PACKAGE_NAME }}
+  REGIS_URL: $${{ secrets.REGIS }}/${{ secrets.REGIS_USER }}/memobot
 
 jobs:
   build-and-push:
