@@ -26,9 +26,20 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@v1.2.3
+
+      - name: Build and push latest tag
         uses: docker/build-push-action@v3
         with:
           push: true
           context: .
           tags: ${{ env.REGIS_URL }}:latest
+
+      - name: Build and push version tag
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          context: .
+          tags: ${{ env.REGIS_URL }}:${{ steps.package-version.outputs.current-version }}
