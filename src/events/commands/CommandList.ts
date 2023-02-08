@@ -4,8 +4,9 @@ import Version from '@/events/commands/listing/Version';
 import Test from '@/events/commands/listing/Test';
 import Play from '@/events/commands/listing/Play';
 
-const phasmo = new Phasmo(); const version = new Version(); const play = new Play();
-const test = new Test();
-//const reload = new Reload();
-
-export const commandList: Command[] = [phasmo, version, test, play];
+export const commandList: Command[] = [
+    new Phasmo(),
+    new Version(),
+    new Test(),
+    new Play(),
+];

@@ -1,7 +1,7 @@
 import { Client } from 'discord.js';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
-import { commandList, specialCommandList } from '@/events/commands/CommandList';
+import { commandList } from '@/events/commands/CommandList';
 
 import { MemoAuthManager as MainAuthProvider } from '@/Memo';
 import AuthManager from '@/utils/AuthManager';

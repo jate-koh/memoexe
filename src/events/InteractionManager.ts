@@ -48,7 +48,7 @@ export default class InteractionManager {
                 // Check Instance of Commands
                 if (command instanceof Command) {
                     this.consoleLogger.sendInformationLog('Command Detected');
-                    command.run(interaction);
+                    await command.run(interaction, this.authProvider);
                 // Unidentified Commands
                 } else {
                     this.consoleLogger.sendErrorLog('Command not found in the listing.');
