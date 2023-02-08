@@ -6,24 +6,24 @@ on:
     types:
       - completed
 
-  env:
-    PACKAGE_NAME: memobot
-    REGIS_URL: ${{ secrets.REGIS }}/${{ secrets.REGIS_USER }}/memobot
+env:
+  PACKAGE_NAME: memobot
+  REGIS_URL: ${{ secrets.REGIS }}/${{ secrets.REGIS_USER }}/memobot
 
-  jobs:
-    deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy
-        uses: appleboy/ssh-action@v0.1.7
-        with: 
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          password: ${{ secrets.SERVER_PASSWORD }}
-          port: 22
-          script: |
-            echo ${{ secrets.CRPAT }} | docker login ${{ secrets.REGIS }} -u ${{ secrets.REGIS_USER }} --password-stdin
-            docker stop ${{ env.PACKAGE_NAME }} || true && docker rm ${{ env.PACKAGE_NAME }} || true
-            docker rmi ${{ env.REGIS_URL }}:latest
-            docker pull ${{ env.REGIS_URL }}:latest
-            docker run -d --name ${{ env.PACKAGE_NAME }} ${{ env.REGIS_URL }}:latest
+jobs:
+  deploy:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Deploy
+      uses: appleboy/ssh-action@v0.1.7
+      with: 
+        host: ${{ secrets.SERVER_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        password: ${{ secrets.SERVER_PASSWORD }}
+        port: 22
+        script: |
+          echo ${{ secrets.CRPAT }} | docker login ${{ secrets.REGIS }} -u ${{ secrets.REGIS_USER }} --password-stdin
+          docker stop ${{ env.PACKAGE_NAME }} || true && docker rm ${{ env.PACKAGE_NAME }} || true
+          docker rmi ${{ env.REGIS_URL }}:latest
+          docker pull ${{ env.REGIS_URL }}:latest
+          docker run -d --name ${{ env.PACKAGE_NAME }} ${{ env.REGIS_URL }}:latest
