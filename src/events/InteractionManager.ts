@@ -23,8 +23,8 @@ export default class InteractionManager {
 
     public static getInteractionInstance(): InteractionManager | null {
         if (this.interactionManagerInstance == null) {
-            const interactionInstance = new InteractionManager();
-            return interactionInstance;
+            this.interactionManagerInstance = new InteractionManager();
+            return this.interactionManagerInstance;
         }
         return null;
     }

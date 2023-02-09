@@ -16,8 +16,8 @@ export default class AuthManager {
 
     public static getAuthInstance(): AuthManager | null {
         if (this.authManagerInstance == null) {
-            const authInstance = new AuthManager();
-            return authInstance;
+            this.authManagerInstance = new AuthManager();
+            return this.authManagerInstance;
         }
         return null;
     }
