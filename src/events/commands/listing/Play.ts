@@ -7,6 +7,7 @@ import AudioPlayer from '@/utils/AudioPlayer';
 import ConsoleLogger from '@/utils/ConsoleLogger';
 import { Command } from '@/events/commands/Command';
 import AuthManager from '@/utils/AuthManager';
+import { MemoPlayer } from '@/Memo';
 
 export default class Play extends Command {
 
@@ -14,7 +15,7 @@ export default class Play extends Command {
 
     public data = new SlashCommandBuilder()
         .setName('play')
-        .setDescription('Play a song');
+        .setDescription('Play a song')
         // .addSubcommand((subcommand) => subcommand
         //     .setName('song')
         //     .setDescription('Loads a single song from url')
@@ -25,11 +26,11 @@ export default class Play extends Command {
         //     .setDescription('Loads a playlist of songs from a url')
         //     .addStringOption((option) => option
         //         .setName('url').setDescription('Playlist\'s url').setRequired(true)))
-        // .addSubcommand((subcommand) => subcommand
-        //     .setName('search')
-        //     .setDescription('Search for song based on provided keywords')
-        //     .addStringOption((option) => option
-        //         .setName('searchterms').setDescription('search\'s keywords').setRequired(true)));
+        .addSubcommand((subcommand) => subcommand
+            .setName('search')
+            .setDescription('Search for song based on provided keywords')
+            .addStringOption((option) => option
+                .setName('searchterms').setDescription('search\'s keywords').setRequired(true)));
 
     public run = async (interaction: CommandInteraction, authProvider: AuthManager) => {
         this.consoleLogger.sendInformationLog('Running Command...');
@@ -40,38 +41,51 @@ export default class Play extends Command {
         const member = guild.members.cache.get(interaction.member.user.id);
         const voiceChannel = member.voice.channel;
 
-        // const connection = joinVoiceChannel({
-        //     channelId: voiceChannel.id,
-        //     guildId: guild.id,
-        //     adapterCreator: guild.voiceAdapterCreator as DiscordGatewayAdapterCreator,
-        // });
+        const connection = joinVoiceChannel({
+            channelId: voiceChannel.id,
+            guildId: guild.id,
+            adapterCreator: guild.voiceAdapterCreator as DiscordGatewayAdapterCreator,
+        });
 
-        let song: Track | undefined;
-        const audioPlayer = new AudioPlayer(authProvider);
-        audioPlayer.createQueue(guild.id, voiceChannel.id);
-        await audioPlayer.queryYouTubeMusic('creeper aw man', interaction.user.id)
-            .then((track) => {
-                song = track;
-            });
+        try {
+            let song: Track | undefined;
+            //const audioPlayer = new AudioPlayer(authProvider);
+            MemoPlayer.createQueue(guild.id, voiceChannel.id, member.voice.channel);
+            await MemoPlayer.searchYouTube(interaction.options.getString('searchterms'), interaction.user.id)
+                .then((track) => {
+                    song = track;
+                });
+            await MemoPlayer.playMusic(song);
 
-        const embedMusicInfo = new EmbedBuilder();
-        if (song) {
-            embedMusicInfo.setTitle('**Playing Music**');
-            embedMusicInfo.setThumbnail(song.thumbnail);
-            embedMusicInfo.setDescription(`${song.title}`);
-            embedMusicInfo.setAuthor({
-                name: user.username,
-                iconURL: user.displayAvatarURL(),
-            });
-        } else {
-            embedMusicInfo.setTitle('**Song Not Found!**');
-            embedMusicInfo.setAuthor({
-                name: user.username,
-                iconURL: user.displayAvatarURL(),
-            });
+            const embedMusicInfo = new EmbedBuilder();
+
+            if (song) {
+                embedMusicInfo
+                    .setTitle(`${song.title}`)
+                    .setURL(`${song.url}`)
+                    .setThumbnail(song.thumbnail)
+                    .setAuthor({
+                        name: user.username,
+                        iconURL: user.displayAvatarURL(),
+                    })
+                    .addFields({
+                        name: 'Duration',
+                        value: song.duration,
+                        inline: true,
+                    });
+            } else {
+                embedMusicInfo
+                    .setTitle('**Song Not Found!**')
+                    .setAuthor({
+                        name: user.username,
+                        iconURL: user.displayAvatarURL(),
+                    });
+            }
+
+            await interaction.reply({ embeds: [embedMusicInfo] });
+        } catch (error) {
+            this.consoleLogger.sendErrorLog(error);
         }
-
-        await interaction.reply({ embeds: [embedMusicInfo] });
     };
 
     public getInstance(): object {

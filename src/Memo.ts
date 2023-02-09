@@ -6,10 +6,12 @@ import Loader from '@/events/Loader';
 import AuthManager from '@/utils/AuthManager';
 import ConsoleLogger from '@/utils/ConsoleLogger';
 import InteractionManager from '@/events/InteractionManager';
+import AudioPlayer from '@/utils/AudioPlayer';
 
 // Auth Manager and Interaction Manager can be instantiated once.
 export const MemoAuthManager            = AuthManager.getAuthInstance();
 export const MemoInteractionManager     = InteractionManager.getInteractionInstance();
+export const MemoPlayer                 = AudioPlayer.getAudioPlayerInstance();
 export default class Memo {
 
     private consoleLogger       = new ConsoleLogger(this.constructor.name);
@@ -37,24 +39,38 @@ export default class Memo {
 
     public async run() {
         const bot = new Client({ intents: IntentOptions });
-        MemoAuthManager.setClient(bot);
 
         /** Bot Login Stage */
         try {
+            MemoAuthManager.setClient(bot);
             await bot.login(MemoAuthManager.getBotToken());
             this.consoleLogger.sendInformationLog('Bot Login: Success');
         } catch (error) {
             throw this.consoleLogger.getError('Bot Login: Failed');
         }
 
-        /* Bot Initialise Stage */
-        bot.on('ready', async () => {
+        /* Bot Player Initialise Stage */
+        try {
+            MemoPlayer.init();
+            const player: Player = MemoPlayer.getPlayer();
+
+            player.on('trackStart', (queue, track) => MemoPlayer.nowPlaying(track));
+            //player.on('error', (error) => { console.log(error); });
+            //player.on('connectionError', (error) => { console.log(error); });
+
+            this.consoleLogger.sendInformationLog('Bot Player Initialiser: Success');
+        } catch (error) {
+            throw this.consoleLogger.getError('Bot Player Initialiser: Failed');
+        }
+
+        /* Bot Engine Initialise Stage */
+        bot.once('ready', async () => {
             try {
                 await this.loader.load(bot).then(() => {
-                    this.consoleLogger.sendInformationLog('Bot Initialiser: Success');
+                    this.consoleLogger.sendInformationLog('Bot Engine Initialiser: Success');
                 });
             } catch (error) {
-                throw this.consoleLogger.getError('Bot Initialiser: Failed');
+                throw this.consoleLogger.getError('Bot Engine Initialiser: Failed');
             }
         });
 
