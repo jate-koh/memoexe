@@ -51,6 +51,8 @@ export default class Play extends Command {
             let song: Track | undefined;
             //const audioPlayer = new AudioPlayer(authProvider);
             MemoPlayer.createQueue(guild.id, voiceChannel.id, member.voice.channel);
+
+            //@ts-ignore
             await MemoPlayer.searchYouTube(interaction.options.getString('searchterms'), interaction.user.id)
                 .then((track) => {
                     song = track;
