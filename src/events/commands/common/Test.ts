@@ -4,7 +4,7 @@ import {
     SlashCommandSubcommandsOnlyBuilder,
 } from '@discordjs/builders';
 import packageJson from 'package.json';
-import ConsoleLogger from '@/utils/ConsoleLogger';
+import ConsoleLogger from '@/utils/loggers/ConsoleLogger';
 import CommandOperator from '@/events/commands/CommandOperator';
 import { Command } from '@/events/commands/Command';
 

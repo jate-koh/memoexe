@@ -9,7 +9,7 @@ import {
 } from 'discord.js';
 
 import { MemoAuthManager as MainAuthManager } from '@/Memo';
-import ConsoleLogger from '@/utils/ConsoleLogger';
+import ConsoleLogger from '@/utils/loggers/ConsoleLogger';
 import AuthManager from '@/utils/AuthManager';
 
 export default class AudioPlayer {

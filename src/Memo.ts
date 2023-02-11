@@ -4,7 +4,7 @@ import { Player } from 'discord-player';
 import { IntentOptions } from '@/config/IntentOptions';
 import Loader from '@/events/Loader';
 import AuthManager from '@/utils/AuthManager';
-import ConsoleLogger from '@/utils/ConsoleLogger';
+import ConsoleLogger from '@/utils/loggers/ConsoleLogger';
 import InteractionManager from '@/events/InteractionManager';
 import AudioPlayer from '@/utils/AudioPlayer';
 

@@ -1,4 +1,4 @@
-import { getCurrentFormatDate } from '@/utils/functions/DateTimeProvider';
+import { getCurrentFormatDate } from '@/utils/loggers/DateTimeProvider';
 
 export default class ConsoleLogger {
 

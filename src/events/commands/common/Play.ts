@@ -4,7 +4,7 @@ import { DiscordGatewayAdapterCreator, joinVoiceChannel } from '@discordjs/voice
 import { Track } from 'discord-player';
 
 import AudioPlayer from '@/utils/AudioPlayer';
-import ConsoleLogger from '@/utils/ConsoleLogger';
+import ConsoleLogger from '@/utils/loggers/ConsoleLogger';
 import { Command } from '@/events/commands/Command';
 import AuthManager from '@/utils/AuthManager';
 import { MemoPlayer } from '@/Memo';

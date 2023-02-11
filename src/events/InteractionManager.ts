@@ -1,7 +1,7 @@
 import { Interaction } from 'discord.js';
 
 import { MemoAuthManager as MainAuthProvider } from '@/Memo';
-import ConsoleLogger from '@/utils/ConsoleLogger';
+import ConsoleLogger from '@/utils/loggers/ConsoleLogger';
 import AuthManager from '@/utils/AuthManager';
 import { InteractionState } from '@/events/InteractionState';
 import { Command } from '@/events/commands/Command';
