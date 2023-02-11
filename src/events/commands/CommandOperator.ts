@@ -8,7 +8,7 @@ import path from 'path';
 
 import { Command } from '@/events/commands/Command';
 import { commandList } from '@/events/commands/CommandList';
-import ConsoleLogger from '@/utils/ConsoleLogger';
+import ConsoleLogger from '@/utils/loggers/ConsoleLogger';
 import InstanceLoader from '@/utils/InstanceLoader';
 
 export default class CommandOperator {

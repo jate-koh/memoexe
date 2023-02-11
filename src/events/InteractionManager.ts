@@ -1,7 +1,7 @@
 import { Interaction } from 'discord.js';
 
 import { MemoAuthManager as MainAuthProvider } from '@/Memo';
-import ConsoleLogger from '@/utils/ConsoleLogger';
+import ConsoleLogger from '@/utils/loggers/ConsoleLogger';
 import AuthManager from '@/utils/AuthManager';
 import { InteractionState } from '@/events/InteractionState';
 import { Command } from '@/events/commands/Command';
@@ -23,8 +23,8 @@ export default class InteractionManager {
 
     public static getInteractionInstance(): InteractionManager | null {
         if (this.interactionManagerInstance == null) {
-            const interactionInstance = new InteractionManager();
-            return interactionInstance;
+            this.interactionManagerInstance = new InteractionManager();
+            return this.interactionManagerInstance;
         }
         return null;
     }
@@ -48,7 +48,7 @@ export default class InteractionManager {
                 // Check Instance of Commands
                 if (command instanceof Command) {
                     this.consoleLogger.sendInformationLog('Command Detected');
-                    command.run(interaction);
+                    await command.run(interaction, this.authProvider);
                 // Unidentified Commands
                 } else {
                     this.consoleLogger.sendErrorLog('Command not found in the listing.');

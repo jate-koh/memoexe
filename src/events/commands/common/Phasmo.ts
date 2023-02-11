@@ -3,7 +3,7 @@ import {
     SlashCommandBuilder,
     SlashCommandSubcommandsOnlyBuilder,
 } from '@discordjs/builders';
-import ConsoleLogger from '@/utils/ConsoleLogger';
+import ConsoleLogger from '@/utils/loggers/ConsoleLogger';
 import { Command } from '@/events/commands/Command';
 
 export default class Phasmo extends Command {
