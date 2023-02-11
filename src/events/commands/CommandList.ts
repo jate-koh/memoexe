@@ -1,8 +1,8 @@
 import { Command } from '@/events/commands/Command';
-import Phasmo from '@/events/commands/listing/Phasmo';
-import Version from '@/events/commands/listing/Version';
-import Test from '@/events/commands/listing/Test';
-import Play from '@/events/commands/listing/Play';
+import Phasmo from '@/events/commands/common/Phasmo';
+import Version from '@/events/commands/common/Version';
+import Test from '@/events/commands/common/Test';
+import Play from '@/events/commands/common/Play';
 
 export const commandList: Command[] = [
     new Phasmo(),
