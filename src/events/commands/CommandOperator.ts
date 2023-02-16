@@ -13,8 +13,6 @@ import InstanceLoader from '@/utils/InstanceLoader';
 
 export default class CommandOperator {
 
-    private consoleLogger = new ConsoleLogger(this.constructor.name);
-
     private commandList: Command[] = undefined;
 
     public constructor() {

@@ -11,7 +11,7 @@ import { MemoPlayer } from '@/Memo';
 
 export default class Play extends Command {
 
-    private consoleLogger = new ConsoleLogger(this.constructor.name);
+    private consoleLogger = new ConsoleLogger('Command: Play');
 
     public data = new SlashCommandBuilder()
         .setName('play')

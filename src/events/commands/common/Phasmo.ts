@@ -8,7 +8,7 @@ import { Command } from '@/events/commands/Command';
 
 export default class Phasmo extends Command {
 
-    private consoleLogger = new ConsoleLogger(this.constructor.name);
+    private consoleLogger = new ConsoleLogger('Command: Phasmo');
 
     public data = new SlashCommandBuilder()
         .setName('phasmo')

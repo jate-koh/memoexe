@@ -14,7 +14,7 @@ export const MemoInteractionManager     = InteractionManager.getInteractionInsta
 export const MemoPlayer                 = AudioPlayer.getAudioPlayerInstance();
 export default class Memo {
 
-    private consoleLogger       = new ConsoleLogger(this.constructor.name);
+    private consoleLogger       = new ConsoleLogger('Memo Main');
     private loader              = new Loader(MemoAuthManager);
 
     public constructor(botToken: string, guildId: string) {

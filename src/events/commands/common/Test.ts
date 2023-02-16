@@ -10,7 +10,7 @@ import { Command } from '@/events/commands/Command';
 
 export default class Test extends Command {
 
-    private consoleLogger = new ConsoleLogger(this.constructor.name);
+    private consoleLogger = new ConsoleLogger('Command: Test');
 
     public data = new SlashCommandBuilder()
         .setName('test')

@@ -10,7 +10,7 @@ import { Command } from '@/events/commands/Command';
 
 export default class Version extends Command {
 
-    private consoleLogger = new ConsoleLogger(this.constructor.name);
+    private consoleLogger = new ConsoleLogger('Command: Version');
 
     public data = new SlashCommandBuilder()
         .setName('version')

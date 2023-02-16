@@ -23,7 +23,7 @@ export default class AudioPlayer {
 
     private isPlaying: boolean;
     private tracksList: TracksQueue         = undefined;
-    private consoleLogger: ConsoleLogger    = new ConsoleLogger(this.constructor.name);
+    private consoleLogger: ConsoleLogger    = new ConsoleLogger('Audio Player');
     private cacheResult: SearchCache        = new SearchCache();
 
     private constructor(authProvider?: AuthManager) {

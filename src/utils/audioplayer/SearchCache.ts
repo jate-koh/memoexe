@@ -15,7 +15,7 @@ import AuthManager from '@/utils/AuthManager';
 export default class SearchCache {
 
     private cache: PlayerSearchResult = undefined;
-    private consoleLogger: ConsoleLogger = new ConsoleLogger(this.constructor.name);
+    private consoleLogger: ConsoleLogger = new ConsoleLogger('Search Cache');
 
     public pushToCache(cache: PlayerSearchResult): void {
         this.cache = cache;

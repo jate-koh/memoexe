@@ -14,7 +14,7 @@ export default class InteractionManager {
     private interactionState: InteractionState = undefined;
     private authProvider: AuthManager = undefined;
 
-    private consoleLogger = new ConsoleLogger(this.constructor.name);
+    private consoleLogger = new ConsoleLogger('Interaction Manager');
 
     private constructor(authProvider?: AuthManager) {
         if (authProvider) this.authProvider = authProvider;
