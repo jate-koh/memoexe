@@ -6,9 +6,9 @@ import Loader from '@/events/Loader';
 import AuthManager from '@/utils/AuthManager';
 import ConsoleLogger from '@/utils/loggers/ConsoleLogger';
 import InteractionManager from '@/events/InteractionManager';
-import AudioPlayer from '@/utils/AudioPlayer';
+import AudioPlayer from '@/utils/audioplayer/AudioPlayer';
 
-// Auth Manager and Interaction Manager can be instantiated once.
+//  Auth/Interaction/Player can be instantiated once.
 export const MemoAuthManager            = AuthManager.getAuthInstance();
 export const MemoInteractionManager     = InteractionManager.getInteractionInstance();
 export const MemoPlayer                 = AudioPlayer.getAudioPlayerInstance();
@@ -54,9 +54,10 @@ export default class Memo {
             MemoPlayer.init();
             const player: Player = MemoPlayer.getPlayer();
 
-            player.on('trackStart', (queue, track) => MemoPlayer.nowPlaying(track));
-            //player.on('error', (error) => { console.log(error); });
-            //player.on('connectionError', (error) => { console.log(error); });
+            player.on('trackStart', (queue, track) => { MemoPlayer.updateStatus(); });
+            player.on('trackEnd', (queue, track) => { MemoPlayer.updateStatus(); });
+            player.on('error', (error) => { console.log(error); });
+            player.on('connectionError', (error) => { console.log(error); });
 
             this.consoleLogger.sendInformationLog('Bot Player Initialiser: Success');
         } catch (error) {
