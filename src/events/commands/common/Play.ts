@@ -3,7 +3,7 @@ import { SlashCommandBuilder, SlashCommandSubcommandsOnlyBuilder } from '@discor
 import { DiscordGatewayAdapterCreator, joinVoiceChannel } from '@discordjs/voice';
 import { Track } from 'discord-player';
 
-import AudioPlayer from '@/utils/AudioPlayer';
+import AudioPlayer from '@/utils/audioplayer/AudioPlayer';
 import ConsoleLogger from '@/utils/loggers/ConsoleLogger';
 import { Command } from '@/events/commands/Command';
 import AuthManager from '@/utils/AuthManager';
@@ -41,50 +41,42 @@ export default class Play extends Command {
         const member = guild.members.cache.get(interaction.member.user.id);
         const voiceChannel = member.voice.channel;
 
-        const connection = joinVoiceChannel({
-            channelId: voiceChannel.id,
-            guildId: guild.id,
-            adapterCreator: guild.voiceAdapterCreator as DiscordGatewayAdapterCreator,
-        });
-
         try {
             let song: Track | undefined;
+            const embedMusicInfo = new EmbedBuilder();
             //const audioPlayer = new AudioPlayer(authProvider);
-            MemoPlayer.createQueue(guild.id, voiceChannel.id, member.voice.channel);
+            MemoPlayer.connect(guild.id, voiceChannel.id, member.voice.channel);
 
             //@ts-ignore
-            await MemoPlayer.searchYouTube(interaction.options.getString('searchterms'), interaction.user.id)
+            await MemoPlayer.queryKeywords(interaction.options.getString('searchterms'), interaction.user.id)
                 .then((track) => {
                     song = track;
+
+                    if (song) {
+                        embedMusicInfo
+                            .setTitle(`${song.title}`)
+                            .setURL(`${song.url}`)
+                            .setThumbnail(song.thumbnail)
+                            .setAuthor({
+                                name: user.username,
+                                iconURL: user.displayAvatarURL(),
+                            })
+                            .addFields({
+                                name: 'Duration',
+                                value: song.duration,
+                                inline: true,
+                            });
+                    } else {
+                        embedMusicInfo
+                            .setTitle('**Song Not Found!**')
+                            .setAuthor({
+                                name: user.username,
+                                iconURL: user.displayAvatarURL(),
+                            });
+                    }
                 });
-            await MemoPlayer.playMusic(song);
-
-            const embedMusicInfo = new EmbedBuilder();
-
-            if (song) {
-                embedMusicInfo
-                    .setTitle(`${song.title}`)
-                    .setURL(`${song.url}`)
-                    .setThumbnail(song.thumbnail)
-                    .setAuthor({
-                        name: user.username,
-                        iconURL: user.displayAvatarURL(),
-                    })
-                    .addFields({
-                        name: 'Duration',
-                        value: song.duration,
-                        inline: true,
-                    });
-            } else {
-                embedMusicInfo
-                    .setTitle('**Song Not Found!**')
-                    .setAuthor({
-                        name: user.username,
-                        iconURL: user.displayAvatarURL(),
-                    });
-            }
-
             await interaction.reply({ embeds: [embedMusicInfo] });
+            await MemoPlayer.play();
         } catch (error) {
             this.consoleLogger.sendErrorLog(error);
         }
@@ -95,3 +87,9 @@ export default class Play extends Command {
     }
 
 }
+
+// const connection = joinVoiceChannel({
+//     channelId: voiceChannel.id,
+//     guildId: guild.id,
+//     adapterCreator: guild.voiceAdapterCreator as DiscordGatewayAdapterCreator,
+// });
