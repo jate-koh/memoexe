@@ -47,7 +47,7 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/naming-convention': 'warn',
         '@typescript-eslint/quotes': 'off',
-        '@typescript-eslint/ban-ts-comment': 'warn',
+        '@typescript-eslint/ban-ts-comment': 'off',
 
         // AirBNB
         'no-console': 'off',
