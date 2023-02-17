@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { CommandInteraction, EmbedBuilder } from 'discord.js';
 import { SlashCommandBuilder, SlashCommandSubcommandsOnlyBuilder } from '@discordjs/builders';
 import { DiscordGatewayAdapterCreator, joinVoiceChannel } from '@discordjs/voice';
@@ -16,11 +17,11 @@ export default class Play extends Command {
     public data = new SlashCommandBuilder()
         .setName('play')
         .setDescription('Play a song')
-        // .addSubcommand((subcommand) => subcommand
-        //     .setName('song')
-        //     .setDescription('Loads a single song from url')
-        //     .addStringOption((option) => option
-        //         .setName('url').setDescription('Song\'s url').setRequired(true)));
+        .addSubcommand((subcommand) => subcommand
+            .setName('url')
+            .setDescription('Loads a single song from url')
+            .addStringOption((option) => option
+                .setName('url').setDescription('Song\'s url').setRequired(true)))
         // .addSubcommand((subcommand) => subcommand
         //     .setName('playlist')
         //     .setDescription('Loads a playlist of songs from a url')
@@ -30,7 +31,7 @@ export default class Play extends Command {
             .setName('search')
             .setDescription('Search for song based on provided keywords')
             .addStringOption((option) => option
-                .setName('searchterms').setDescription('search\'s keywords').setRequired(true)));
+                .setName('keywords').setDescription('search\'s keywords').setRequired(true)));
 
     public run = async (interaction: CommandInteraction, authProvider: AuthManager) => {
         this.consoleLogger.sendInformationLog('Running Command...');
@@ -41,40 +42,48 @@ export default class Play extends Command {
         const member = guild.members.cache.get(interaction.member.user.id);
         const voiceChannel = member.voice.channel;
 
+        if (!voiceChannel) interaction.reply({ content: 'You must be in a voice channel to use this command!' });
+
         try {
             let song: Track | undefined;
             const embedMusicInfo = new EmbedBuilder();
             //const audioPlayer = new AudioPlayer(authProvider);
             MemoPlayer.connect(guild.id, voiceChannel.id, member.voice.channel);
 
-            //@ts-ignore
-            await MemoPlayer.queryKeywords(interaction.options.getString('searchterms'), interaction.user.id)
-                .then((track) => {
-                    song = track;
+            if (interaction.options.getString('searchterms')) {
+                await MemoPlayer.queryKeywords(interaction.options.getString('keywords'), interaction.user.id)
+                    .then((track) => {
+                        song = track;
+                    });
+            } else if (interaction.options.getString('url')) {
+                await MemoPlayer.queryKeywords(interaction.options.getString('url'), interaction.user.id)
+                    .then((track) => {
+                        song = track;
+                    });
+            }
 
-                    if (song) {
-                        embedMusicInfo
-                            .setTitle(`${song.title}`)
-                            .setURL(`${song.url}`)
-                            .setThumbnail(song.thumbnail)
-                            .setAuthor({
-                                name: user.username,
-                                iconURL: user.displayAvatarURL(),
-                            })
-                            .addFields({
-                                name: 'Duration',
-                                value: song.duration,
-                                inline: true,
-                            });
-                    } else {
-                        embedMusicInfo
-                            .setTitle('**Song Not Found!**')
-                            .setAuthor({
-                                name: user.username,
-                                iconURL: user.displayAvatarURL(),
-                            });
-                    }
-                });
+            if (song) {
+                embedMusicInfo
+                    .setTitle(`${song.title}`)
+                    .setURL(`${song.url}`)
+                    .setThumbnail(song.thumbnail)
+                    .setAuthor({
+                        name: user.username,
+                        iconURL: user.displayAvatarURL(),
+                    })
+                    .addFields({
+                        name: 'Duration',
+                        value: song.duration,
+                        inline: true,
+                    });
+            } else {
+                embedMusicInfo
+                    .setTitle('**Song Not Found!**')
+                    .setAuthor({
+                        name: user.username,
+                        iconURL: user.displayAvatarURL(),
+                    });
+            }
             await interaction.reply({ embeds: [embedMusicInfo] });
             await MemoPlayer.play();
         } catch (error) {
