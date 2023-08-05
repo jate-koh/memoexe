@@ -1,5 +1,6 @@
 {
-  "name": "memo-exe",
+  "name": "memo-exe-proto",
+  "description": "a prototype version of memo-exe discord bot. outdated and no longer used.",
   "version": "0.2.0",
   "main": "./dist/src/index.js",
   "author": "jate-koh <jate_ben@hotmail.com>",
